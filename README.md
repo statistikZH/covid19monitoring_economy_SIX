@@ -7,3 +7,6 @@ Finanzvolumen von Debitkartentransaktionen: Bargeldbezüge und stationäre Eink�
 debiteinsatz_ausland = Finanzvolumen Debitkarteneinsatz im Ausland<br>
 bezug_bargeld = Finanzvolumen Bargeldbezug an Bancomaten CH<br>
 stat_einkauf = Finanzvolumen Debitkarteneinsatz stationärer Einkauf CH (kein Online-Handel)
+
+<Strong>Source</strong>
+Six Payment Services
