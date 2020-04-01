@@ -1,6 +1,6 @@
 # covid19monitoring_economy_SIX
 
-Finanzvolumen von Debitkartentransaktionen: Bargeldbezüge und stationäre Einkäufe in der Schweiz sowie  Auslandsumsätze. Aufbereitete Daten.
+Finanzvolumen von Debitkartentransaktionen (ohne Postcard): Bargeldbezüge und stationäre Einkäufe in der Schweiz sowie  Auslandsumsätze. Aufbereitete Daten.
 
 <strong>Variablen:</strong>
 
