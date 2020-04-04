@@ -13,6 +13,8 @@ Die Variablen weisen die Finanzvolumen unterschiedlicher Bezugsfunktionen aus. D
 <strong>bezug_bargeld</strong> = Finanzvolumen Bargeldbezug Debitkarten in der Schweiz<br>
 <strong>stat_einkauf</strong> =	Finanzvolumen Debitkarteneinsatz stationärer Einkauf in der Schweiz (kein Online-Handel)<br>
 
+<h2> Weitere Informationen </h2>
+
 [Projektseite](https://github.com/statistikZH/covid19monitoring) <br>
 [Datenbezug](https://www.web.statistik.zh.ch/covid19_indikatoren_uebersicht/#/) <br>
 [Visualisierung](https://www.web.statistik.zh.ch/cms_vis/covid19_indikatoren/) <br>
