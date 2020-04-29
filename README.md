@@ -10,8 +10,11 @@ Die Variablen weisen die Finanzvolumen unterschiedlicher Bezugsfunktionen aus. D
 
 
 <strong>debiteinsatz_ausland </strong> = 	Finanzvolumen Debitkarteneinsatz im Ausland<br>
+<strong>anz_debiteinsatz_ausland </strong> = 	Anzahl Debitkarteneinsätze im Ausland<br>
 <strong>bezug_bargeld</strong> = Finanzvolumen Bargeldbezug Debitkarten in der Schweiz<br>
+<strong>anz_bezug_bargeld</strong> = Anzahl Bargeldbezüge Debitkarten in der Schweiz<br>
 <strong>stat_einkauf</strong> =	Finanzvolumen Debitkarteneinsatz stationärer Einkauf in der Schweiz (kein Online-Handel)<br>
+<strong>anz_stat_einkauf</strong> =	Anzahl Debitkarteneinsätze stationärer Einkauf in der Schweiz (kein Online-Handel)<br>
 
 <h2> Weitere Informationen </h2>
 
