@@ -56,7 +56,7 @@ htmltools::img(src = knitr::image_uri(file.path("../KtZuerichLogo.png")),
 
 
 *Debitkarteneinsatz im stationären Einkauf vor, während und nach dem Corona-Lockdown*<br><br>
-**Die erste Woche des schrittweisen Ausstiegs aus dem Corona-Lockdown ist vorbei. Hinweise, wie stark unser Einkaufsverhalten in den letzten Wochen von Normalfall abgewichen ist, liefern die Transaktionszahlen von Debitkarten. Klar ersichtlich ist die Übergangsphase mit einem deutlich erhöhten Einkaufsvolumen sowie der Einbruch während des Lockdowns. Geliefert werden die Daten vom Finanzdienstleister SIX BBS AG.**<br><br>
+**Die erste Woche des schrittweisen Ausstiegs aus dem Corona-Lockdown ist vorbei. Hinweise, wie stark unser Einkaufsverhalten in den letzten Wochen vom Normalfall abgewichen ist, liefern die Transaktionszahlen von Debitkarten. Klar ersichtlich sind die Übergangsphase mit einem deutlich erhöhten Einkaufsvolumen sowie der Einbruch während des Lockdowns. Geliefert werden die Daten vom Finanzdienstleister SIX BBS AG.**<br><br>
 Die Grafik unten zeigt das finanzielle Gesamtvolumen der Einkäufe und Dienstleistungen, welche mit Debitkarten von Schweizer Banken (exkl. Postfinance) direkt am Ort des Konsums bezahlt wurden. 
 
 ```{r Vorbereitungen,echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
@@ -250,7 +250,7 @@ htmltools::img(src = knitr::image_uri(file.path("uebergangsphase.JPG")),
 ```
 
 # Lockdown
-Bei der Analyse der Lockdown-Periode ist zu beachten, dass Ostern während dieser Zeit stattfanden. Die Tage vor Ostern sind deshalb gelb eingefärbt. Die Osterfeiertage haben (wie alle anderen Feiertage) die Farbe Grün. Diese Differenzierung ist wichtig, weil an den Tagen vor Ostern der Konsum erhöht ist. An den eigentlichen Osterfeiertagen (Karfreitag und Ostermontag) liegen die Ausgaben dann in etwa auf dem Niveau eines Sonntags. Vergleicht man die Zahlen aus der Prä-Lockdown-Periode mit der Zeit des Lockdowns (ohne Ostern), liegen die durchschnittlichen Ausgaben werktags um 25.8 Mio. Fr. (-24%), samstags um 58.9 Mio. Fr. (-38%) und sonntags um 17.4 Mio. Fr. (-60%) tiefer. Wo das «fehlende Geld» geblieben ist, zeigen die Debitkarten-Daten nicht. Weil zudem keine Vorjahresdaten zur Verfügung stehen, ist es nicht möglich zu sagen, wie hoch die Beträge in einem 'normalen' April gewesen wären.
+Bei der Analyse der Lockdown-Periode ist zu beachten, dass Ostern während dieser Zeit stattfand. Die Tage vor Ostern sind deshalb gelb eingefärbt. Die Osterfeiertage haben (wie alle anderen Feiertage) die Farbe Grün. Diese Differenzierung ist wichtig, weil an den Tagen vor Ostern der Konsum erhöht ist. An den eigentlichen Osterfeiertagen (Karfreitag und Ostermontag) liegen die Ausgaben dann in etwa auf dem Niveau eines Sonntags. Vergleicht man die Zahlen aus der Prä-Lockdown-Periode mit der Zeit des Lockdowns (ohne Ostern), liegen die durchschnittlichen Ausgaben werktags um 25.8 Mio. Fr. (-24%), samstags um 58.9 Mio. Fr. (-38%) und sonntags um 17.4 Mio. Fr. (-60%) tiefer. Wo das «fehlende Geld» geblieben ist, zeigen die Debitkarten-Daten nicht. Weil zudem keine Vorjahresdaten zur Verfügung stehen, ist es nicht möglich zu sagen, wie hoch die Beträge in einem 'normalen' April gewesen wären.
 
 ```{r pre_vs_lockdown, echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
 htmltools::img(src = knitr::image_uri(file.path("pre_vs_lockdown.JPG")),
@@ -269,7 +269,7 @@ htmltools::img(src = knitr::image_uri(file.path("erste_lockerung.JPG")),
 
 
 # Methodisches & Daten
-Die Analyse beschränkt sich auf stationäre Einkäufe, die mit einer Debitkarte von Schweizer Banken vor Ort beglichen wurden (exkl. Postfinance). Bargeldtransaktionen oder die Bezahlung via Kreditkarte sind nicht berücksichtigt sind, ebenso wenig Distanzkäufe, etwa in einem Online-Shop oder via Telefonbestellung. Rückschlüsse auf die Konsumausgaben insgesamt sind somit nur unter starken Vorbehalten möglich. Weil zudem davon auszugehen ist, dass es in der Bevölkerung unterschiedliche Präferenzen gibt bezüglich des verwendeten Zahlungsmittels, gilt die Analyse nicht für die Gesamtbevölkerung. 
+Die Analyse beschränkt sich auf stationäre Einkäufe, die mit einer Debitkarte von Schweizer Banken vor Ort beglichen wurden (exkl. Postfinance). Bargeldtransaktionen oder die Bezahlung via Kreditkarte sind nicht berücksichtigt, ebenso wenig Distanzkäufe, etwa in einem Online-Shop oder via Telefonbestellung. Rückschlüsse auf die Konsumausgaben insgesamt sind somit nur unter starken Vorbehalten möglich. Weil zudem davon auszugehen ist, dass es in der Bevölkerung unterschiedliche Präferenzen gibt bezüglich des verwendeten Zahlungsmittels, gilt die Analyse nicht für die Gesamtbevölkerung. 
 
 Der Vorteil der analysierten Daten liegt darin, dass sie täglich vorliegen und anders als bei Bargeld, der Bezug und die Verwendung des Geldes zeitgleich passieren.
 
