@@ -1,7 +1,7 @@
 # covid19monitoring_economy_SIX
 
 <h2> Grundlage </h2>
-Die Daten von SIX Payment Services umfassen bargeldlose Transaktionen und Bargeldbezüge im In- und Ausland, für welche von Schweizer Banken ausgehändigte Debitkarten der folgenden Marken verwendet wurden: Debit Mastercard, Maestro CH, V PAY oder Visa Debit.
+Die Daten von der SIX BBS AG umfassen bargeldlose Transaktionen und Bargeldbezüge im In- und Ausland, für welche von Schweizer Banken ausgehändigte Debitkarten der folgenden Marken verwendet wurden: Debit Mastercard, Maestro CH, V PAY oder Visa Debit.
 
 <h2> Methodisches </h2>
 Die Variablen weisen die Finanzvolumen unterschiedlicher Bezugsfunktionen aus. Die Unterscheidung zw. Schweiz und Ausland findet über das Bezugssystem statt. In keinem Fall berücksichtigt werden Bancomat-Einzahlungen und Geldautomaten-Betreuergutschriften.  
