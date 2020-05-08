@@ -107,6 +107,9 @@ dat2 %>%
   scale_fill_manual(values = zhpal$zhdiagonal) +
   theme_stat() +
   theme(legend.position = "right")
+
+## save plot
+ggsave(filename = "plots/Economy_SIX_stat_einkauf_monday_plot.png")
   
 
 
