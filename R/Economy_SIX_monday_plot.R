@@ -108,24 +108,63 @@ levels_period2 = c('Prä-Lockdown',
                    'Zweite Lockdown-Lockerung')
 
 
-dat2 %>% 
+pldat <- dat2 %>% 
   mutate(woche = factor(woche)) %>% 
   filter(variable_short == "stat_einkauf") %>% 
   filter(tag == "Montage") %>%
+  
   mutate(Periode=as.character(Periode))%>%
-  mutate(Periode= ifelse(date=='2020-04-13','Ostermontag',Periode))%>%
-  mutate(Periode= ifelse(date=='2020-04-06','Montag vor Ostern',Periode))%>%
-  mutate(Periode = factor(Periode, levels = levels_period2)) %>% 
-  ggplot(aes(x = woche, y = value, fill = Periode)) +
-  geom_col() +
+  mutate(lbltxt = NA)%>%
+  
+  mutate(lbltxt = case_when(
+    date == '2020-03-16' ~ 'Montag vor Lockdown',
+    date == '2020-04-06' ~ 'Montag vor Ostern',
+    date == '2020-04-13' ~ 'Ostermontag',
+    date == '2020-04-27' ~ '1. Lockerung',
+    date == '2020-05-11' ~ '2. Lockerung',
+    TRUE ~ as.character(lbltxt)))
+  
+  #mutate(Periode= ifelse(date=='2020-04-13','Ostermontag',Periode))%>%
+  #mutate(Periode= ifelse(date=='2020-04-06','Montag vor Ostern',Periode))%>%
+  #mutate(Periode= ifelse(date=='2020-04-06','Montag vor Ostern',Periode))%>%
+  #mutate(Periode = factor(Periode, levels = levels_period2)) %>% 
+  
+  
+  ggplot(pldat, aes(x = woche, y = value)) +
+  geom_col(fill='#BFDCED') +
+    geom_text(aes(y=5,label=lbltxt),angle=90,hjust=0,vjust=0.5, size = 12)+
   #scale_fill_manual(values = zhpal$zhdiagonal) +
-  scale_fill_manual(values = c('Prä-Lockdown'='#6CBD72',
-                                'Übergangsphase (12.-16. März)'='#EDDD79',
-                                'Lockdown'='#F3A5A7',
-                                'Montag vor Ostern'='#E0D6E6',
-                                'Ostermontag'='#3FA5A5',
-                                'Erste Lockdown-Lockerung'= '#407B9F',
-                                'Zweite Lockdown-Lockerung'= '#857091')) +
+  #scale_fill_manual(values = c('Prä-Lockdown'='#6CBD72',
+  #                              'Übergangsphase (12.-16. März)'='#EDDD79',
+  #                              'Lockdown'='#F3A5A7',
+  #                              'Montag vor Ostern'='#E0D6E6',
+  #                              'Ostermontag'='#3FA5A5',
+  #                              'Erste Lockdown-Lockerung'= '#407B9F',
+  #                              'Zweite Lockdown-Lockerung'= '#857091')) +
+  
+  geom_segment(aes(x = 0.5, 
+                   y = 150, xend = 10.5, 
+                   yend = 150), colour='#6CBD72', size=3)+
+    
+    geom_text(aes(x = 0.5, 
+                     y = 140), label='Prä-Lockdown', colour='#6CBD72', size=12, hjust=0)+
+    
+    geom_segment(aes(x = 11.5, 
+                     y = 150, xend = 16.5, 
+                     yend = 150), colour='#F3A5A7', size=3)+
+    
+    geom_text(aes(x = 11.5, 
+                  y = 140), label='Lockdown', colour='#F3A5A7', size=12, hjust=0)+
+    
+    geom_segment(aes(x = 16.5, 
+                     y = 150, xend = 19.5, 
+                     yend = 150), colour='#407B9F', size=3)+
+    
+    geom_text(aes(x = 16.5, 
+                  y = 140), label='Lockerungsphase', colour='#407B9F', size=12, hjust=0)+
+    
+  
+  
   labs(y = 'Mio. Fr.\n', 
        x = 'Kalenderwoche\n\n', 
        title = "Debikartenumsätze stationärer Einkauf an Montagen\n", 
@@ -151,7 +190,6 @@ dat2 %>%
     #legend.key = element_rect(fill = NA),#
     legend.key.size = unit(3.5,"line"),
     plot.caption= element_text(color="black", size=20))
-
 
 ## save plot
 #ggsave(filename = "plots/Economy_SIX_stat_einkauf_monday_plot.png")

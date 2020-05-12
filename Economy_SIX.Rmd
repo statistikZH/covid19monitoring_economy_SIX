@@ -285,6 +285,8 @@ htmltools::img(src = knitr::image_uri(file.path("pre_vs_lockdown.JPG")),
 # Erste Lockdown-Lockerung
 An den ersten Tagen der Lockerungsphase (Montag, 27. April bis Donnerstag, 30. April) lagen die Ausgaben schon fast wieder auf dem Niveau der Prä-Lockdown Periode. Da unmittelbar vor der ersten Lockerungsphase Zahltag war, ist ein Teil des Anstiegs bei den Ausgaben wohl auch darauf zurückzuführen. Angesichts der Tatsache, dass weiterhin ein Grossteil der Geschäfte geschlossen ist, ist der Anstieg aber trotzdem eindrücklich und legt die These nahe, dass die Geschäfte, die bereits öffnen durften, von einem Konsumstau profitiert haben. Am Freitag, dem 1. Mai waren die Ausgaben auf Lockdown-Niveau und am Samstag wieder erhöht. Wie sich die Zahlen in den nächsten Tagen entwickeln bleibt also spannend. Die interaktive Grafik wird deshalb fortlaufend aktualisiert.
 
+
+
 ```{r erste lockerung, echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
 htmltools::img(src = knitr::image_uri(file.path("erste_lockerung.JPG")),
              alt = 'logo', 
