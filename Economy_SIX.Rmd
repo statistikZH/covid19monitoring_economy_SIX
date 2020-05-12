@@ -92,8 +92,7 @@ dba <- Economy_DebitCards%>%
            date <= as.POSIXct('2020-03-11',format = '%Y-%m-%d') ~ 'Prä-Lockdown',
            date > as.POSIXct('2020-03-11',format = '%Y-%m-%d') & date <= as.POSIXct('2020-03-16',format = '%Y-%m-%d') ~ 'Übergangsphase (12.-16. März)',
            date > as.POSIXct('2020-03-16',format = '%Y-%m-%d') & date <= as.POSIXct('2020-04-26',format = '%Y-%m-%d') ~ 'Lockdown',
-           date > as.POSIXct('2020-04-26',format = '%Y-%m-%d')  ~ 'Erste Lockdown-Lockerung',
-           
+           date > as.POSIXct('2020-04-26',format = '%Y-%m-%d') & date <= as.POSIXct('2020-05-10',format = '%Y-%m-%d')  ~ 'Erste Lockdown-Lockerung',
            date > as.POSIXct('2020-05-10',format = '%Y-%m-%d')  ~ 'Zweite Lockdown-Lockerung',
            
          TRUE ~as.character(date)),
@@ -116,7 +115,7 @@ dba <- Economy_DebitCards%>%
          salary_day = ifelse(Periode == 'Prä-Lockdown',salary_day, NA)) %>%
   arrange(date)
 
-#table(dba$Periode)
+
 
 write.csv(dba,'dba.csv',row.names=F, fileEncoding = "UTF-8")
 
@@ -140,14 +139,23 @@ dba_stat <- dba %>%
 p <- ggplot(dba[dba$variable_short=='stat_einkauf',], aes(woche,value))+
   geom_path(col='grey',alpha=0.3)+
   geom_point(aes(col=Periode),alpha=0.8, size=10)+
-  scale_color_manual(values = c('Tage mit gleichem Zahltag '='#FF0000',
-                                'Prä-Lockdown'='#102542',
-                                'Übergangsphase (12.-16. März)'='#004BA8',
-                                'Lockdown'='#F87060',
-                                'Tage vor Ostern'='#DBD56E',
-                                'Feier- und Festtage'='#65B891',
-                                'Erste Lockdown-Lockerung'= '#8865FF',
-                                'Zweite Lockdown-Lockerung'= '#ff65c1')) +
+  #scale_color_manual(values = c('Tage mit gleichem Zahltag '='#FF0000',
+  #                              'Prä-Lockdown'='#102542',
+  #                              'Übergangsphase (12.-16. März)'='#004BA8',
+  #                              'Lockdown'='#F87060',
+  #                              'Tage vor Ostern'='#DBD56E',
+  #                              'Feier- und Festtage'='#65B891',
+  #                              'Erste Lockdown-Lockerung'= '#8865FF',
+  #                              'Zweite Lockdown-Lockerung'= '#ff65c1')) +
+  #
+    scale_color_manual(values = c('Prä-Lockdown'='#6CBD72',
+                                'Übergangsphase (12.-16. März)'='#EDDD79',
+                                'Lockdown'='#F3A5A7',
+                                'Tage vor Ostern'='#E0D6E6',
+                                'Feier- und Festtage'='#3FA5A5',
+                                'Erste Lockdown-Lockerung'= '#407B9F',
+                                'Zweite Lockdown-Lockerung'= '#857091')) +
+  
  # geom_path(data=dba[dba$variable_short=='stat_einkauf' & !is.na(dba$salary_day),],aes(group=salary_day,col='Tage mit gleichem Zahltag '), alpha=0.7, size=0.5)+
   facet_wrap(~tag,ncol = 7)+
  labs(y = 'Mio. Fr.\n', 
@@ -186,14 +194,25 @@ p <- ggplot(dba[dba$variable_short=='stat_einkauf',], aes(woche,value))+
   geom_point(aes(col=Periode,
                  text=sprintf("Datum: %s<br>Volumen in Mio. Fr.: %s", date, value)),
              alpha=0.8)+
-  scale_color_manual(values = c('Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'='#FF0000',
-                                'Prä-Lockdown'='#102542',
-                                'Übergangsphase (12.-16. März)'='#004BA8',
-                                'Lockdown'='#F87060',
-                                'Tage vor Ostern'='#DBD56E',
-                                'Feier- und Festtage'='#65B891',
-                                'Erste Lockdown-Lockerung'= '#8865FF',
-                                'Zweite Lockdown-Lockerung'= '#ff65c1')) +
+  #scale_color_manual(values = c('Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'='#FF0000',
+  #                              'Prä-Lockdown'='#102542',
+  #                              'Übergangsphase (12.-16. März)'='#004BA8',
+  #                              'Lockdown'='#F87060',
+  #                              'Tage vor Ostern'='#DBD56E',
+  #                              'Feier- und Festtage'='#65B891',
+  #                              'Erste Lockdown-Lockerung'= '#8865FF',
+  #                              'Zweite Lockdown-Lockerung'= '#ff65c1')) +
+  #
+      scale_color_manual(values = c('Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'='#FF0000',
+                                    'Prä-Lockdown'='#6CBD72',
+                                'Übergangsphase (12.-16. März)'='#EDDD79',
+                                'Lockdown'='#F3A5A7',
+                                'Tage vor Ostern'='#E0D6E6',
+                                'Feier- und Festtage'='#3FA5A5',
+                                'Erste Lockdown-Lockerung'= '#407B9F',
+                                'Zweite Lockdown-Lockerung'= '#857091')) +
+  
+  
   geom_path(data=dba[dba$variable_short=='stat_einkauf' & !is.na(dba$salary_day),],aes(group=salary_day,col='Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'), alpha=0.7, size=0.5)+
   scale_x_continuous(breaks = c(5, 10, 15),labels= c(5, 10, 15))+
   scale_y_continuous(breaks = c(50, 100, 150),labels= c(50, 100, 150))+
@@ -217,13 +236,15 @@ gg <- ggplotly(p, tooltip="text") %>%
 
 gg <- plotly_build(gg) 
 
-gg$x$data[[42]]$visible <- 'legendonly'  
-gg$x$data[[43]]$visible <- 'legendonly'  
+#gg$x$data[[42]]$visible <- 'legendonly'  
+#gg$x$data[[43]]$visible <- 'legendonly'  
 gg$x$data[[44]]$visible <- 'legendonly'  
 gg$x$data[[45]]$visible <- 'legendonly'  
 gg$x$data[[46]]$visible <- 'legendonly'  
 gg$x$data[[47]]$visible <- 'legendonly'  
 gg$x$data[[48]]$visible <- 'legendonly'  
+gg$x$data[[49]]$visible <- 'legendonly'  
+gg$x$data[[50]]$visible <- 'legendonly'  
 
 
 gg

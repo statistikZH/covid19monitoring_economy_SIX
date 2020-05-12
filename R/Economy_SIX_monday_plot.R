@@ -127,9 +127,9 @@ dat2 %>%
                                 'Erste Lockdown-Lockerung'= '#407B9F',
                                 'Zweite Lockdown-Lockerung'= '#857091')) +
   labs(y = 'Mio. Fr.\n', 
-       x = '\nKalenderwoche', 
-       title = "\nVolumen Debitkarteneinsatz stationärer Einkauf CH an Montagen im Jahr 2020", 
-       subtitle = "\nKein Online-Handel\n",
+       x = 'Kalenderwoche\n\n', 
+       title = "Debikartenumsätze stationärer Einkauf an Montagen\n", 
+       subtitle = "Alle Montage im Jahr 2020, geordnet nach Kalenderwoche / Debitkarten von CH-Banken",
        caption = paste0('Daten: SIX BBS AG / Gesellschaftsmonitoring COVID-19 STAT'))+
   theme_stat() +
   theme(legend.position = "bottom",
