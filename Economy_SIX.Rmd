@@ -237,14 +237,14 @@ gg <- ggplotly(p, tooltip="text") %>%
 gg <- plotly_build(gg) 
 
 
-gg$x$data[[45]]$visible <- 'legendonly'  
 gg$x$data[[46]]$visible <- 'legendonly'  
 gg$x$data[[47]]$visible <- 'legendonly'  
 gg$x$data[[48]]$visible <- 'legendonly'  
 gg$x$data[[49]]$visible <- 'legendonly'  
 gg$x$data[[50]]$visible <- 'legendonly'  
 gg$x$data[[51]]$visible <- 'legendonly'  
-
+gg$x$data[[52]]$visible <- 'legendonly'  
+gg$x$data[[53]]$visible <- 'legendonly'  
 
 gg
 
