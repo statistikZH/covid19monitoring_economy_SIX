@@ -48,10 +48,11 @@ h3 { /* Header 3 */
 }
 </style>
 
-![](../KtZuerichLogo.png)
+![](plots/KtZuerichLogo.png)
 
 
 *Debitkarteneinsatz im stationären Einkauf vor, während und nach dem Corona-Lockdown*<br><br>
+*Text zuletzt aktualisiert am 18.05.2020*<br><br>
 **Die erste Woche des schrittweisen Ausstiegs aus dem Corona-Lockdown ist vorbei. Hinweise, wie stark unser Einkaufsverhalten in den letzten Wochen vom Normalfall abgewichen ist, liefern die Transaktionszahlen von Debitkarten. Klar ersichtlich sind die Übergangsphase mit einem deutlich erhöhten Einkaufsvolumen sowie der Einbruch während des Lockdowns. Geliefert werden die Daten vom Finanzdienstleister SIX BBS AG.**<br><br>
 Die Grafik unten zeigt das finanzielle Gesamtvolumen der Einkäufe und Dienstleistungen, welche mit Debitkarten von Schweizer Banken (exkl. Postfinance) direkt am Ort des Konsums bezahlt wurden. 
 
@@ -237,14 +238,14 @@ gg <- ggplotly(p, tooltip="text") %>%
 gg <- plotly_build(gg) 
 
 
-gg$x$data[[46]]$visible <- 'legendonly'  
-gg$x$data[[47]]$visible <- 'legendonly'  
-gg$x$data[[48]]$visible <- 'legendonly'  
-gg$x$data[[49]]$visible <- 'legendonly'  
 gg$x$data[[50]]$visible <- 'legendonly'  
 gg$x$data[[51]]$visible <- 'legendonly'  
 gg$x$data[[52]]$visible <- 'legendonly'  
 gg$x$data[[53]]$visible <- 'legendonly'  
+gg$x$data[[54]]$visible <- 'legendonly'  
+gg$x$data[[55]]$visible <- 'legendonly'  
+gg$x$data[[56]]$visible <- 'legendonly'  
+#gg$x$data[[57]]$visible <- 'legendonly'  
 
 gg
 
@@ -255,7 +256,7 @@ Die Grafik ist nach Wochentagen gegliedert, weil unser Einkaufsverhalten stark v
 Ebenfalls zum Ausdruck kommt, dass die Leute nach dem klassischen Zahltag am 25. des Monats (bzw. am Freitag davor, wenn der 25. am Wochenende ist) grundsätzlich mehr konsumieren. Das ist an der diagonalen Parallelstruktur der Punkte erkennbar,  die erscheint, wenn für die Prä-Lockdown Periode die regulären Tage, die zum gleichen Zahltag gehören, verbunden werden.
 
 ```{r Parellel Struktur, echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
-htmltools::img(src = knitr::image_uri(file.path("parallel_struktur.JPG")),
+htmltools::img(src = knitr::image_uri(file.path("plots/parallel_struktur.JPG")),
              alt = 'logo', 
               style = 'position:relative; display: block; margin-left: auto; margin-right: auto; height:100%; width:100%;')
 ```
@@ -267,7 +268,7 @@ Die roten fallenden Linien bringen zum Ausdruck, dass die Ausgaben im Normalfall
 Anhand der Abweichung vom Muster der Parallelstruktur kann man grob bestimmen, ab wann die Corona-Krise das Einkaufsverhalten beeinflusst hat. So gibt es am Donnerstag, 12. März, also einen Tag, bevor der Bundesrat die Schliessung der Schulen ankündigte, eine erste auffällige Erhöhung der Ausgaben, die nicht dem Muster der Parallelstruktur folgt. Als eigentliche Hamsterkauftage können der Freitag, 13. März, und der Montag, 16. März, bezeichnet werden. An diesen Tagen lagen die Ausgaben im Vergleich zur Vorwoche am Freitag um 41.5 Mio. Fr. (+32%) und am Montag um 49.1 Mio. Fr. (+44%) höher. Am Samstag, 14. März, fällt die Erhöhung gegenüber der Vorwoche deutlich kleiner aus (8 Mio. Fr., +4.9%). Sie ist aber immer noch bemerkenswert, wenn man bedenkt, dass die Ausgaben wegen der erwähnten Parallelstruktur eigentlich rückläufig sein müssten.
 
 ```{r uebergang, echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
-htmltools::img(src = knitr::image_uri(file.path("uebergangsphase.JPG")),
+htmltools::img(src = knitr::image_uri(file.path("plots/uebergangsphase.JPG")),
              alt = 'logo', 
               style = 'position:relative; display: block; margin-left: auto; margin-right: auto; height:100%; width:100%;')
 ```
@@ -276,22 +277,45 @@ htmltools::img(src = knitr::image_uri(file.path("uebergangsphase.JPG")),
 Bei der Analyse der Lockdown-Periode ist zu beachten, dass Ostern während dieser Zeit stattfand. Die Tage vor Ostern sind deshalb gelb eingefärbt. Die Osterfeiertage haben (wie alle anderen Feiertage) die Farbe Grün. Diese Differenzierung ist wichtig, weil an den Tagen vor Ostern der Konsum erhöht ist. An den eigentlichen Osterfeiertagen (Karfreitag und Ostermontag) liegen die Ausgaben dann in etwa auf dem Niveau eines Sonntags. Vergleicht man die Zahlen aus der Prä-Lockdown-Periode mit der Zeit des Lockdowns (ohne Ostern), liegen die durchschnittlichen Ausgaben werktags um 25.8 Mio. Fr. (-24%), samstags um 58.9 Mio. Fr. (-38%) und sonntags um 17.4 Mio. Fr. (-60%) tiefer. Wo das «fehlende Geld» geblieben ist, zeigen die Debitkarten-Daten nicht. Weil zudem keine Vorjahresdaten zur Verfügung stehen, ist es nicht möglich zu sagen, wie hoch die Beträge in einem 'normalen' April gewesen wären.
 
 ```{r pre_vs_lockdown, echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
-htmltools::img(src = knitr::image_uri(file.path("pre_vs_lockdown.JPG")),
+htmltools::img(src = knitr::image_uri(file.path("plots/pre_vs_lockdown.JPG")),
              alt = 'logo', 
               style = 'position:relative; display: block; margin-left: auto; margin-right: auto; height:100%; width:100%;')
 ```
 
 # Erste Lockdown-Lockerung
-An den ersten Tagen der Lockerungsphase (Montag, 27. April bis Donnerstag, 30. April) lagen die Ausgaben schon fast wieder auf dem Niveau der Prä-Lockdown Periode. Da unmittelbar vor der ersten Lockerungsphase Zahltag war, ist ein Teil des Anstiegs bei den Ausgaben wohl auch darauf zurückzuführen. Angesichts der Tatsache, dass weiterhin ein Grossteil der Geschäfte geschlossen ist, ist der Anstieg aber trotzdem eindrücklich und legt die These nahe, dass die Geschäfte, die bereits öffnen durften, von einem Konsumstau profitiert haben. Am Freitag, dem 1. Mai waren die Ausgaben auf Lockdown-Niveau und am Samstag wieder erhöht. Wie sich die Zahlen in den nächsten Tagen entwickeln bleibt also spannend. Die interaktive Grafik wird deshalb fortlaufend aktualisiert.
-
+An den ersten Tagen der Lockerungsphase (Montag, 27. April bis Donnerstag, 30. April) lagen die Ausgaben schon fast wieder auf dem Niveau der Prä-Lockdown Periode. Da unmittelbar vor der ersten Lockerungsphase Zahltag war, ist ein Teil des Anstiegs bei den Ausgaben wohl auch darauf zurückzuführen. Angesichts der Tatsache, dass weiterhin ein Grossteil der Geschäfte geschlossen ist, ist der Anstieg aber trotzdem eindrücklich und legt die These nahe, dass die Geschäfte, die bereits öffnen durften, von einem Konsumstau profitiert haben. Am Freitag, dem 1. Mai waren die Ausgaben auf Lockdown-Niveau und am Samstag wieder erhöht. In der zweiten Woche lagen die Umsätze abgesehen vom Wochenende wieder tiefer. 
 
 
 ```{r erste lockerung, echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
-htmltools::img(src = knitr::image_uri(file.path("erste_lockerung.JPG")),
+htmltools::img(src = knitr::image_uri(file.path("plots/erste_lockerung.JPG")),
              alt = 'logo', 
               style = 'position:relative; display: block; margin-left: auto; margin-right: auto; height:100%; width:100%;')
 ```
 
+```{r Auswertung erste woche der zweiten Lockerungsphase,echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
+dba_stat_2phase <- dba %>%
+  filter(variable_short=='stat_einkauf')%>%
+  filter(Periode %in% c('Erste Lockdown-Lockerung','Zweite Lockdown-Lockerung'))%>%
+    mutate(taggrp = case_when(
+    tag == 'Sonntage' ~ 'Sonntage',
+    tag == 'Samstage' ~ 'Samstage',
+    TRUE ~ 'Werktage'))%>%
+  group_by(taggrp,Periode)%>%
+  summarise(mean = mean(value))%>%
+  tidyr::spread(Periode,mean)%>%
+  mutate(diff = `Zweite Lockdown-Lockerung`-`Erste Lockdown-Lockerung` )%>%
+  mutate(diff_perc = diff/`Erste Lockdown-Lockerung`)
+
+```
+
+# Zweite Lockdown-Lockerung
+In der ersten Woche der zweiten Lockerungsphase gab es an vielen Tagen neue Jahreshöchstände. Ausnahmen sind der Montag und der Freitag, wo es während der Übergangsphase zum Lockdown noch höhere stationäre Debitkartenumsätze gab, sowie der Sonntag. Die nach wie vor tieferen Sonntagsumsätze dürften dem Umstand geschuldet sein, dass viele Freizeitangebot noch geschlossen sind. Wie sich die Zahlen in den nächsten Tagen entwickeln bleibt also spannend. Die interaktive Grafik wird deshalb fortlaufend aktualisiert.
+
+```{r zweite Lockerung, echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
+htmltools::img(src = knitr::image_uri(file.path("plots/zweite_lockerung.JPG")),
+             alt = 'logo', 
+              style = 'position:relative; display: block; margin-left: auto; margin-right: auto; height:100%; width:100%;')
+```
 
 # Methodisches & Daten
 Die Analyse beschränkt sich auf stationäre Einkäufe, die mit einer Debitkarte von Schweizer Banken vor Ort beglichen wurden (exkl. Postfinance). Bargeldtransaktionen oder die Bezahlung via Kreditkarte sind nicht berücksichtigt, ebenso wenig Distanzkäufe, etwa in einem Online-Shop oder via Telefonbestellung. Rückschlüsse auf die Konsumausgaben insgesamt sind somit nur unter starken Vorbehalten möglich. Weil zudem davon auszugehen ist, dass es in der Bevölkerung unterschiedliche Präferenzen gibt bezüglich des verwendeten Zahlungsmittels, gilt die Analyse nicht für die Gesamtbevölkerung. 
