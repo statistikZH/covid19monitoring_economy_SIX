@@ -309,7 +309,7 @@ dba_stat_2phase <- dba %>%
 ```
 
 # Zweite Lockdown-Lockerung
-In der ersten Woche der zweiten Lockerungsphase gab es an vielen Tagen neue Jahreshöchstände. Ausnahmen sind der Montag und der Freitag, wo es während der Übergangsphase zum Lockdown noch höhere stationäre Debitkartenumsätze gab, sowie der Sonntag. Die nach wie vor tieferen Sonntagsumsätze dürften dem Umstand geschuldet sein, dass viele Freizeitangebot noch geschlossen sind. Wie sich die Zahlen in den nächsten Tagen entwickeln bleibt also spannend. Die interaktive Grafik wird deshalb fortlaufend aktualisiert.
+In der ersten Woche der zweiten Lockerungsphase gab es an vielen Tagen neue Jahreshöchststände. Ausnahmen sind der Montag und der Freitag, wo es während der Übergangsphase zum Lockdown noch höhere stationäre Debitkartenumsätze gab, sowie der Sonntag. Die nach wie vor tieferen Sonntagsumsätze dürften dem Umstand geschuldet sein, dass viele Freizeitangebote noch geschlossen sind. Wie sich die Zahlen in den nächsten Tagen entwickeln bleibt also spannend. Die interaktive Grafik wird deshalb fortlaufend aktualisiert.
 
 ```{r zweite Lockerung, echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
 htmltools::img(src = knitr::image_uri(file.path("plots/zweite_lockerung.JPG")),
