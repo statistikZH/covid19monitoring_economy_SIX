@@ -88,7 +88,7 @@ dba <- Economy_DebitCards%>%
                                         'Mittwoche','Donnerstage',
                                         'Freitage','Samstage','Sonntage')),
          Periode = case_when(
-           date %in% as.POSIXct(c('2020-01-01','2020-01-02','2020-02-14','2020-04-10','2020-04-13','2020-05-01'),format = '%Y-%m-%d') ~ 'Feier- und Festtage',
+           date %in% as.POSIXct(c('2020-01-01','2020-01-02','2020-02-14','2020-04-10','2020-04-13','2020-05-01','2020-05-21'),format = '%Y-%m-%d') ~ 'Feier- und Festtage',
            date %in% as.POSIXct(c('2020-04-06','2020-04-07','2020-04-08','2020-04-09','2020-04-11'),format = '%Y-%m-%d') == T  ~ 'Tage vor Ostern',
            date <= as.POSIXct('2020-03-11',format = '%Y-%m-%d') ~ 'Prä-Lockdown',
            date > as.POSIXct('2020-03-11',format = '%Y-%m-%d') & date <= as.POSIXct('2020-03-16',format = '%Y-%m-%d') ~ 'Übergangsphase (12.-16. März)',
