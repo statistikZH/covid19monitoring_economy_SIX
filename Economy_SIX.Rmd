@@ -215,7 +215,7 @@ p <- ggplot(dba[dba$variable_short=='stat_einkauf',], aes(woche,value))+
   
   
   geom_path(data=dba[dba$variable_short=='stat_einkauf' & !is.na(dba$salary_day),],aes(group=salary_day,col='Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'), alpha=0.7, size=0.5)+
-  scale_x_continuous(breaks = c(5, 10, 15),labels= c(5, 10, 15))+
+  scale_x_continuous(breaks = c(5, 10, 15,20),labels= c(5, 10, 15,20))+
   scale_y_continuous(breaks = c(50, 100, 150),labels= c(50, 100, 150))+
 
   facet_wrap(~tag,ncol = 7)+
