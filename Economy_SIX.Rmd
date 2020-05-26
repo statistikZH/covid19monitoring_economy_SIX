@@ -224,7 +224,8 @@ p <- ggplot(dba[dba$variable_short=='stat_einkauf',], aes(woche,value))+
      title = "Volumen Debitkarteneinsatz stationärer Einkauf CH<br> ", 
      subtitle = "Kein Online-Handel",
      caption = paste0('Daten: SIX BBS AG / Gesellschaftsmonitoring COVID-19 STAT'))+
-  theme_bw()
+  theme_bw()+
+   theme(legend.title = element_blank())
 
 
 gg <- ggplotly(p, tooltip="text") %>%  
@@ -233,8 +234,7 @@ gg <- ggplotly(p, tooltip="text") %>%
           margin = list(l = 75),
           xaxis=list(fixedrange=TRUE),
           yaxis=list(fixedrange=TRUE),
-          autosize=T) %>%
-  style(legendgroup = NULL)
+          autosize=T)
 
 gg <- plotly_build(gg) 
 
