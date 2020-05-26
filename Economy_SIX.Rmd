@@ -76,13 +76,13 @@ dba <- Economy_DebitCards%>%
   mutate(date = as.POSIXct(date,format = '%Y-%m-%d'),
     day = weekdays(date),
          tag = case_when(
-           day == 'Monday' ~ 'Montage',
-           day == 'Tuesday' ~ 'Dienstage',
-           day == 'Wednesday' ~ 'Mittwoche',
-           day == 'Thursday' ~ 'Donnerstage',
-           day == 'Friday' ~ 'Freitage',
-           day == 'Saturday' ~ 'Samstage',
-           day == 'Sunday' ~ 'Sonntage',
+           day == 'Montag' ~ 'Montage',
+           day == 'Dienstag' ~ 'Dienstage',
+           day == 'Mittwoch' ~ 'Mittwoche',
+           day == 'Donnerstag' ~ 'Donnerstage',
+           day == 'Freitag' ~ 'Freitage',
+           day == 'Samstag' ~ 'Samstage',
+           day == 'Sonntag' ~ 'Sonntage',
            TRUE~as.character(day)),
            tag = factor(tag, levels = c('Montage','Dienstage',
                                         'Mittwoche','Donnerstage',
@@ -236,6 +236,7 @@ gg <- ggplotly(p, tooltip="text") %>%
           autosize=T)
 
 gg <- plotly_build(gg) 
+
 
 
 gg$x$data[[50]]$visible <- 'legendonly'  
