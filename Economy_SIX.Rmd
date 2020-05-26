@@ -1,0 +1,329 @@
+---
+title: "Einkaufen im Lockdown"
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+    theme: lumen
+    highlight: tango
+---
+
+<style type="text/css">
+.main-container {
+  max-width: 1800px;
+  margin-left: 0;
+  margin-right: auto;
+}
+blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    font-size: 14px;
+    border-left: 5px solid #eee;
+}
+
+h1.title {
+  font-size: 38px;
+  color: #000000;
+  }
+  
+h1 { /* Header 1 */
+  font-size: 28px;
+  color: #0033cc;
+}
+h2 { /* Header 2 */
+    font-size: 28px;
+	color: #0099ff
+}
+h3 { /* Header 3 */
+    font-size: 14px;
+	color: #6600cc
+}
+</style>
+
+![](plots/KtZuerichLogo.png)
+
+
+*Debitkarteneinsatz im stationären Einkauf vor, während und nach dem Corona-Lockdown*<br><br>
+*Text zuletzt aktualisiert am 18.05.2020*<br><br>
+**Die erste Woche des schrittweisen Ausstiegs aus dem Corona-Lockdown ist vorbei. Hinweise, wie stark unser Einkaufsverhalten in den letzten Wochen vom Normalfall abgewichen ist, liefern die Transaktionszahlen von Debitkarten. Klar ersichtlich sind die Übergangsphase mit einem deutlich erhöhten Einkaufsvolumen sowie der Einbruch während des Lockdowns. Geliefert werden die Daten vom Finanzdienstleister SIX BBS AG.**<br><br>
+Die Grafik unten zeigt das finanzielle Gesamtvolumen der Einkäufe und Dienstleistungen, welche mit Debitkarten von Schweizer Banken (exkl. Postfinance) direkt am Ort des Konsums bezahlt wurden. 
+
+```{r Vorbereitungen,echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
+rm(list=ls())
+options(stringsAsFactors = F)
+
+### Packages 
+library(dplyr)
+library(ggplot2)
+library(scales)
+library(plotly)
+```
+
+```{r Analyse stat. Einkauf,echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
+
+Economy_DebitCards <- read.csv('Economy_SIX.csv')
+
+dba <- Economy_DebitCards%>%
+  filter(variable_short %in% c('stat_einkauf','bezug_bargeld'))%>%
+  mutate(date = as.POSIXct(date,format = '%Y-%m-%d'),
+    day = weekdays(date),
+         tag = case_when(
+           day == 'Monday' ~ 'Montage',
+           day == 'Tuesday' ~ 'Dienstage',
+           day == 'Wednesday' ~ 'Mittwoche',
+           day == 'Thursday' ~ 'Donnerstage',
+           day == 'Friday' ~ 'Freitage',
+           day == 'Saturday' ~ 'Samstage',
+           day == 'Sunday' ~ 'Sonntage',
+           TRUE~as.character(day)),
+           tag = factor(tag, levels = c('Montage','Dienstage',
+                                        'Mittwoche','Donnerstage',
+                                        'Freitage','Samstage','Sonntage')),
+         Periode = case_when(
+           date %in% as.POSIXct(c('2020-01-01','2020-01-02','2020-02-14','2020-04-10','2020-04-13','2020-05-01','2020-05-21'),format = '%Y-%m-%d') ~ 'Feier- und Festtage',
+           date %in% as.POSIXct(c('2020-04-06','2020-04-07','2020-04-08','2020-04-09','2020-04-11'),format = '%Y-%m-%d') == T  ~ 'Tage vor Ostern',
+           date <= as.POSIXct('2020-03-11',format = '%Y-%m-%d') ~ 'Prä-Lockdown',
+           date > as.POSIXct('2020-03-11',format = '%Y-%m-%d') & date <= as.POSIXct('2020-03-16',format = '%Y-%m-%d') ~ 'Übergangsphase (12.-16. März)',
+           date > as.POSIXct('2020-03-16',format = '%Y-%m-%d') & date <= as.POSIXct('2020-04-26',format = '%Y-%m-%d') ~ 'Lockdown',
+           date > as.POSIXct('2020-04-26',format = '%Y-%m-%d') & date <= as.POSIXct('2020-05-10',format = '%Y-%m-%d')  ~ 'Erste Lockdown-Lockerung',
+           date > as.POSIXct('2020-05-10',format = '%Y-%m-%d')  ~ 'Zweite Lockdown-Lockerung',
+           
+         TRUE ~as.character(date)),
+         woche = lubridate::isoweek(date),
+         Periode = factor(Periode, levels = c('Prä-Lockdown',
+                                              'Übergangsphase (12.-16. März)',
+                                              'Lockdown',
+                                              'Tage vor Ostern',
+                                              'Erste Lockdown-Lockerung',
+                                              'Zweite Lockdown-Lockerung',
+                                              'Feier- und Festtage'
+                                              )),
+         salary_day = case_when(
+           date < as.POSIXct('2020-01-24',format = '%Y-%m-%d')  ~ 'Dezember',
+           date < as.POSIXct('2020-02-25',format = '%Y-%m-%d')  ~ 'Januar',
+           date < as.POSIXct('2020-03-25',format = '%Y-%m-%d')  ~ 'Februar',
+           date < as.POSIXct('2020-04-24',format = '%Y-%m-%d')  ~ 'Maerz',
+           date < as.POSIXct('2020-05-25',format = '%Y-%m-%d')  ~ 'April',
+           TRUE ~ 'MISSING'),
+         salary_day = ifelse(Periode == 'Prä-Lockdown',salary_day, NA)) %>%
+  arrange(date)
+
+
+
+write.csv(dba,'dba.csv',row.names=F, fileEncoding = "UTF-8")
+
+
+
+dba_stat <- dba %>%
+  filter(variable_short=='stat_einkauf')%>%
+  filter(Periode %in% c('Prä-Lockdown','Lockdown'))%>%
+    mutate(taggrp = case_when(
+    tag == 'Sonntage' ~ 'Sonntage',
+    tag == 'Samstage' ~ 'Samstage',
+    TRUE ~ 'Werktage'))%>%
+  group_by(taggrp,Periode)%>%
+  summarise(mean = mean(value))%>%
+  tidyr::spread(Periode,mean)%>%
+  mutate(diff = `Prä-Lockdown` - Lockdown)%>%
+  mutate(diff_perc = diff/`Prä-Lockdown`)
+
+
+
+p <- ggplot(dba[dba$variable_short=='stat_einkauf',], aes(woche,value))+
+  geom_path(col='grey',alpha=0.3)+
+  geom_point(aes(col=Periode),alpha=0.8, size=10)+
+  #scale_color_manual(values = c('Tage mit gleichem Zahltag '='#FF0000',
+  #                              'Prä-Lockdown'='#102542',
+  #                              'Übergangsphase (12.-16. März)'='#004BA8',
+  #                              'Lockdown'='#F87060',
+  #                              'Tage vor Ostern'='#DBD56E',
+  #                              'Feier- und Festtage'='#65B891',
+  #                              'Erste Lockdown-Lockerung'= '#8865FF',
+  #                              'Zweite Lockdown-Lockerung'= '#ff65c1')) +
+  #
+    scale_color_manual(values = c('Prä-Lockdown'='#6CBD72',
+                                'Übergangsphase (12.-16. März)'='#EDDD79',
+                                'Lockdown'='#F3A5A7',
+                                'Tage vor Ostern'='#E0D6E6',
+                                'Feier- und Festtage'='#3FA5A5',
+                                'Erste Lockdown-Lockerung'= '#407B9F',
+                                'Zweite Lockdown-Lockerung'= '#857091')) +
+  
+ # geom_path(data=dba[dba$variable_short=='stat_einkauf' & !is.na(dba$salary_day),],aes(group=salary_day,col='Tage mit gleichem Zahltag '), alpha=0.7, size=0.5)+
+  facet_wrap(~tag,ncol = 7)+
+ labs(y = 'Mio. Fr.\n', 
+     x = '\nKalenderwoche', 
+     title = "\nVolumen Debitkarteneinsatz stationärer Einkauf CH", 
+     subtitle = "\nKein Online-Handel\n",
+     caption = paste0('Daten: SIX BBS AG) / Gesellschaftsmonitoring COVID-19 STAT'))+
+  theme(#panel.grid = element_blank()
+    axis.line = element_line(color="black", size = 1),
+    axis.text = element_text(color="black", size = 25,face = "bold"),
+    axis.title = element_text(color="black", size = 25,face = "bold"),
+    axis.ticks.y = element_blank(),
+    panel.background = element_rect(fill='white'),
+    plot.background = element_rect(fill='white'),
+    plot.title = element_text(color="black", size = 40,face = "bold"),
+    plot.subtitle = element_text(color="black", size = 30),
+    #legend.justification=c(0,1), 
+    legend.position = 'bottom',
+    legend.background = element_rect(fill=alpha("white", 0)),
+    legend.title=element_blank(),
+    legend.text= element_text(color="black", size=25),
+    legend.key = element_rect(fill = NA),
+    legend.key.size = unit(3.5,"line"),
+    panel.spacing = unit(4, "lines"),
+    plot.margin = margin(10, 100, 10, 10),
+    strip.text = element_text(color="black", size = 30,face = "bold", hjust=0.1),
+    strip.background = element_rect(colour="white", fill="white"),
+    plot.caption= element_text(color="black", size=20))
+
+
+ggsave('plots/p_einkauf_tag.png', plot = p,width = 22.86, height =14.128, units = c("cm"),dpi=300,scale=3)
+
+
+p <- ggplot(dba[dba$variable_short=='stat_einkauf',], aes(woche,value))+
+  geom_path(col='grey',alpha=0.3)+
+  geom_point(aes(col=Periode,
+                 text=sprintf("Datum: %s<br>Volumen in Mio. Fr.: %s", date, value)),
+             alpha=0.8)+
+  #scale_color_manual(values = c('Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'='#FF0000',
+  #                              'Prä-Lockdown'='#102542',
+  #                              'Übergangsphase (12.-16. März)'='#004BA8',
+  #                              'Lockdown'='#F87060',
+  #                              'Tage vor Ostern'='#DBD56E',
+  #                              'Feier- und Festtage'='#65B891',
+  #                              'Erste Lockdown-Lockerung'= '#8865FF',
+  #                              'Zweite Lockdown-Lockerung'= '#ff65c1')) +
+  #
+      scale_color_manual(values = c('Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'='#FF0000',
+                                    'Prä-Lockdown'='#6CBD72',
+                                'Übergangsphase (12.-16. März)'='#EDDD79',
+                                'Lockdown'='#F3A5A7',
+                                'Tage vor Ostern'='#E0D6E6',
+                                'Feier- und Festtage'='#3FA5A5',
+                                'Erste Lockdown-Lockerung'= '#407B9F',
+                                'Zweite Lockdown-Lockerung'= '#857091')) +
+  
+  
+  geom_path(data=dba[dba$variable_short=='stat_einkauf' & !is.na(dba$salary_day),],aes(group=salary_day,col='Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'), alpha=0.7, size=0.5)+
+  scale_x_continuous(breaks = c(5, 10, 15,20),labels= c(5, 10, 15,20))+
+  scale_y_continuous(breaks = c(50, 100, 150),labels= c(50, 100, 150))+
+
+  facet_wrap(~tag,ncol = 7)+
+ labs(y = 'Mio. Fr.<br> ', 
+     x = ' <br>Kalenderwoche', 
+     title = "Volumen Debitkarteneinsatz stationärer Einkauf CH<br> ", 
+     subtitle = "Kein Online-Handel",
+     caption = paste0('Daten: SIX BBS AG) / Gesellschaftsmonitoring COVID-19 STAT'))+
+  theme_bw()
+
+
+gg <- ggplotly(p, tooltip="text") %>%  
+  config(displayModeBar = F) %>%
+   layout(legend = list(orientation = "h",y = -0.2),
+          margin = list(l = 75),
+          xaxis=list(fixedrange=TRUE),
+          yaxis=list(fixedrange=TRUE),
+          autosize=T)
+
+gg <- plotly_build(gg) 
+
+
+gg$x$data[[50]]$visible <- 'legendonly'  
+gg$x$data[[51]]$visible <- 'legendonly'  
+gg$x$data[[52]]$visible <- 'legendonly'  
+gg$x$data[[53]]$visible <- 'legendonly'  
+gg$x$data[[54]]$visible <- 'legendonly'  
+gg$x$data[[55]]$visible <- 'legendonly'  
+gg$x$data[[56]]$visible <- 'legendonly'  
+#gg$x$data[[57]]$visible <- 'legendonly'  
+
+gg
+
+```
+
+Die Grafik ist nach Wochentagen gegliedert, weil unser Einkaufsverhalten stark vom Wochenverlauf geprägt ist. Das wird vor allem deutlich, wenn man die Zeit vor dem Lockdown betrachtet («Prä-Lockdown»). Im Januar und im Februar waren die Ausgaben im stationären Einkauf samstags am höchsten, sonntags wenig überraschend am tiefsten und montags und freitags leicht höher als an den anderen Werktagen.
+
+Ebenfalls zum Ausdruck kommt, dass die Leute nach dem klassischen Zahltag am 25. des Monats (bzw. am Freitag davor, wenn der 25. am Wochenende ist) grundsätzlich mehr konsumieren. Das ist an der diagonalen Parallelstruktur der Punkte erkennbar,  die erscheint, wenn für die Prä-Lockdown Periode die regulären Tage, die zum gleichen Zahltag gehören, verbunden werden.
+
+```{r Parellel Struktur, echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
+htmltools::img(src = knitr::image_uri(file.path("plots/parallel_struktur.JPG")),
+             alt = 'logo', 
+              style = 'position:relative; display: block; margin-left: auto; margin-right: auto; height:100%; width:100%;')
+```
+
+Die roten fallenden Linien bringen zum Ausdruck, dass die Ausgaben im Normalfall höher sind, je geringer der zeitliche Abstand zum vorhergegangenen Zahltag ist. Eine deutliche Abweichung von dieser Regel gibt es während des Prä-Lockdowns nur bei Fest- und Freitagen sowie an den Tagen davor und danach. Etwa am Valentinstag, der dieses Jahr an einem Freitag war, oder an den Tagen in der ersten Januarwoche. Falls Sie die Parallelstrukur in der interaktiven Grafik sehen wollen, können Sie in der Legende auf «Tage mit gleichem Zahltag  verbinden» klicken.
+
+
+# Übergangsphase
+Anhand der Abweichung vom Muster der Parallelstruktur kann man grob bestimmen, ab wann die Corona-Krise das Einkaufsverhalten beeinflusst hat. So gibt es am Donnerstag, 12. März, also einen Tag, bevor der Bundesrat die Schliessung der Schulen ankündigte, eine erste auffällige Erhöhung der Ausgaben, die nicht dem Muster der Parallelstruktur folgt. Als eigentliche Hamsterkauftage können der Freitag, 13. März, und der Montag, 16. März, bezeichnet werden. An diesen Tagen lagen die Ausgaben im Vergleich zur Vorwoche am Freitag um 41.5 Mio. Fr. (+32%) und am Montag um 49.1 Mio. Fr. (+44%) höher. Am Samstag, 14. März, fällt die Erhöhung gegenüber der Vorwoche deutlich kleiner aus (8 Mio. Fr., +4.9%). Sie ist aber immer noch bemerkenswert, wenn man bedenkt, dass die Ausgaben wegen der erwähnten Parallelstruktur eigentlich rückläufig sein müssten.
+
+```{r uebergang, echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
+htmltools::img(src = knitr::image_uri(file.path("plots/uebergangsphase.JPG")),
+             alt = 'logo', 
+              style = 'position:relative; display: block; margin-left: auto; margin-right: auto; height:100%; width:100%;')
+```
+
+# Lockdown
+Bei der Analyse der Lockdown-Periode ist zu beachten, dass Ostern während dieser Zeit stattfand. Die Tage vor Ostern sind deshalb gelb eingefärbt. Die Osterfeiertage haben (wie alle anderen Feiertage) die Farbe Grün. Diese Differenzierung ist wichtig, weil an den Tagen vor Ostern der Konsum erhöht ist. An den eigentlichen Osterfeiertagen (Karfreitag und Ostermontag) liegen die Ausgaben dann in etwa auf dem Niveau eines Sonntags. Vergleicht man die Zahlen aus der Prä-Lockdown-Periode mit der Zeit des Lockdowns (ohne Ostern), liegen die durchschnittlichen Ausgaben werktags um 25.8 Mio. Fr. (-24%), samstags um 58.9 Mio. Fr. (-38%) und sonntags um 17.4 Mio. Fr. (-60%) tiefer. Wo das «fehlende Geld» geblieben ist, zeigen die Debitkarten-Daten nicht. Weil zudem keine Vorjahresdaten zur Verfügung stehen, ist es nicht möglich zu sagen, wie hoch die Beträge in einem 'normalen' April gewesen wären.
+
+```{r pre_vs_lockdown, echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
+htmltools::img(src = knitr::image_uri(file.path("plots/pre_vs_lockdown.JPG")),
+             alt = 'logo', 
+              style = 'position:relative; display: block; margin-left: auto; margin-right: auto; height:100%; width:100%;')
+```
+
+# Erste Lockdown-Lockerung
+An den ersten Tagen der Lockerungsphase (Montag, 27. April bis Donnerstag, 30. April) lagen die Ausgaben schon fast wieder auf dem Niveau der Prä-Lockdown Periode. Da unmittelbar vor der ersten Lockerungsphase Zahltag war, ist ein Teil des Anstiegs bei den Ausgaben wohl auch darauf zurückzuführen. Angesichts der Tatsache, dass weiterhin ein Grossteil der Geschäfte geschlossen ist, ist der Anstieg aber trotzdem eindrücklich und legt die These nahe, dass die Geschäfte, die bereits öffnen durften, von einem Konsumstau profitiert haben. Am Freitag, dem 1. Mai waren die Ausgaben auf Lockdown-Niveau und am Samstag wieder erhöht. In der zweiten Woche lagen die Umsätze abgesehen vom Wochenende tiefer, aber immer noch auf dem Niveau der Prä-Lockdown Periode. 
+
+
+```{r erste lockerung, echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
+htmltools::img(src = knitr::image_uri(file.path("plots/erste_lockerung.JPG")),
+             alt = 'logo', 
+              style = 'position:relative; display: block; margin-left: auto; margin-right: auto; height:100%; width:100%;')
+```
+
+```{r Auswertung erste woche der zweiten Lockerungsphase,echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
+dba_stat_2phase <- dba %>%
+  filter(variable_short=='stat_einkauf')%>%
+  filter(Periode %in% c('Erste Lockdown-Lockerung','Zweite Lockdown-Lockerung'))%>%
+    mutate(taggrp = case_when(
+    tag == 'Sonntage' ~ 'Sonntage',
+    tag == 'Samstage' ~ 'Samstage',
+    TRUE ~ 'Werktage'))%>%
+  group_by(taggrp,Periode)%>%
+  summarise(mean = mean(value))%>%
+  tidyr::spread(Periode,mean)%>%
+  mutate(diff = `Zweite Lockdown-Lockerung`-`Erste Lockdown-Lockerung` )%>%
+  mutate(diff_perc = diff/`Erste Lockdown-Lockerung`)
+
+```
+
+# Zweite Lockdown-Lockerung
+In der ersten Woche der zweiten Lockerungsphase gab es an vielen Tagen neue Jahreshöchststände. Ausnahmen sind der Montag und der Freitag, wo es während der Übergangsphase zum Lockdown noch höhere stationäre Debitkartenumsätze gab, sowie der Sonntag. Die nach wie vor tieferen Sonntagsumsätze dürften dem Umstand geschuldet sein, dass viele Freizeitangebote noch geschlossen sind. Wie sich die Zahlen in den nächsten Tagen entwickeln bleibt also spannend. Die interaktive Grafik wird deshalb fortlaufend aktualisiert.
+
+```{r zweite Lockerung, echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
+htmltools::img(src = knitr::image_uri(file.path("plots/zweite_lockerung.JPG")),
+             alt = 'logo', 
+              style = 'position:relative; display: block; margin-left: auto; margin-right: auto; height:100%; width:100%;')
+```
+
+# Methodisches & Daten
+Die Analyse beschränkt sich auf stationäre Einkäufe, die mit einer Debitkarte von Schweizer Banken vor Ort beglichen wurden (exkl. Postfinance). Bargeldtransaktionen oder die Bezahlung via Kreditkarte sind nicht berücksichtigt, ebenso wenig Distanzkäufe, etwa in einem Online-Shop oder via Telefonbestellung. Rückschlüsse auf die Konsumausgaben insgesamt sind somit nur unter starken Vorbehalten möglich. Weil zudem davon auszugehen ist, dass es in der Bevölkerung unterschiedliche Präferenzen gibt bezüglich des verwendeten Zahlungsmittels, gilt die Analyse nicht für die Gesamtbevölkerung. 
+
+Der Vorteil der analysierten Daten liegt darin, dass sie täglich vorliegen und anders als bei Bargeld, der Bezug und die Verwendung des Geldes zeitgleich passieren.
+
+Datenquelle: Die Daten stammen von der SIX BBS AG. Weitere Informationen finden sich im Github-Repository (siehe Link unten).<br>
+Github-Repo: [Link](https://github.com/statistikZH/covid19monitoring_economy_SIX)<br>
+Kontakt: Basil Schläpfer, Statistisches Amt Kanton Zürich,+41 43 259 75 39, basil.schlaepfer@statistik.ji.zh.ch<br><br>
+
+
