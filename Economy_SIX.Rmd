@@ -229,7 +229,7 @@ p <- ggplot(dba[dba$variable_short=='stat_einkauf',], aes(woche,value))+
 
 gg <- ggplotly(p, tooltip="text") %>%  
   config(displayModeBar = F) %>%
-   layout(legend = list(orientation = "h",y = -0.2),
+   layout(legend = list(orientation = "h",y = -0.9),
           margin = list(l = 75),
           xaxis=list(fixedrange=TRUE),
           yaxis=list(fixedrange=TRUE),
