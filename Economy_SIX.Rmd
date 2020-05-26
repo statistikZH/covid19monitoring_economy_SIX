@@ -219,11 +219,11 @@ p <- ggplot(dba[dba$variable_short=='stat_einkauf',], aes(woche,value))+
   scale_y_continuous(breaks = c(50, 100, 150),labels= c(50, 100, 150))+
 
   facet_wrap(~tag,ncol = 7)+
- labs(y = 'Mio. Fr.<br> ', 
-     x = ' <br>Kalenderwoche', 
+ labs(y = 'Mio. Fr.<br><br> ', 
+     x = ' <br><br>Kalenderwoche', 
      title = "Volumen Debitkarteneinsatz stationärer Einkauf CH<br> ", 
      subtitle = "Kein Online-Handel",
-     caption = paste0('Daten: SIX BBS AG) / Gesellschaftsmonitoring COVID-19 STAT'))+
+     caption = paste0('Daten: SIX BBS AG / Gesellschaftsmonitoring COVID-19 STAT'))+
   theme_bw()
 
 
@@ -233,10 +233,10 @@ gg <- ggplotly(p, tooltip="text") %>%
           margin = list(l = 75),
           xaxis=list(fixedrange=TRUE),
           yaxis=list(fixedrange=TRUE),
-          autosize=T)
+          autosize=T) %>%
+  style(legendgroup = NULL)
 
 gg <- plotly_build(gg) 
-
 
 
 gg$x$data[[50]]$visible <- 'legendonly'  
