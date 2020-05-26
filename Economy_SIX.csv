@@ -144,10 +144,7 @@
 2020-05-22,4.3,"Wirtschaft","debiteinsatz_ausland","Debitkarteneinsatz Ausland","Ausland","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-05-23,6.1,"Wirtschaft","debiteinsatz_ausland","Debitkarteneinsatz Ausland","Ausland","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-05-24,0.7,"Wirtschaft","debiteinsatz_ausland","Debitkarteneinsatz Ausland","Ausland","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
-<<<<<<< HEAD
 2020-05-25,6.1,"Wirtschaft","debiteinsatz_ausland","Debitkarteneinsatz Ausland","Ausland","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
-=======
->>>>>>> 7e45e88014d5e038dede848f1526ab4addea6d0c
 2020-01-01,31.7,"Wirtschaft","bezug_bargeld","Bargeldbezug CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-01-02,76.9,"Wirtschaft","bezug_bargeld","Bargeldbezug CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-01-03,139.8,"Wirtschaft","bezug_bargeld","Bargeldbezug CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
@@ -293,10 +290,7 @@
 2020-05-22,106.6,"Wirtschaft","bezug_bargeld","Bargeldbezug CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-05-23,68.9,"Wirtschaft","bezug_bargeld","Bargeldbezug CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-05-24,33.1,"Wirtschaft","bezug_bargeld","Bargeldbezug CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
-<<<<<<< HEAD
 2020-05-25,189.8,"Wirtschaft","bezug_bargeld","Bargeldbezug CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
-=======
->>>>>>> 7e45e88014d5e038dede848f1526ab4addea6d0c
 2020-01-01,39.6,"Wirtschaft","stat_einkauf","Stationärer Einkauf CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-01-02,77,"Wirtschaft","stat_einkauf","Stationärer Einkauf CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-01-03,131.3,"Wirtschaft","stat_einkauf","Stationärer Einkauf CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
@@ -442,10 +436,7 @@
 2020-05-22,184.4,"Wirtschaft","stat_einkauf","Stationärer Einkauf CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-05-23,176.9,"Wirtschaft","stat_einkauf","Stationärer Einkauf CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-05-24,22.4,"Wirtschaft","stat_einkauf","Stationärer Einkauf CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
-<<<<<<< HEAD
 2020-05-25,145.6,"Wirtschaft","stat_einkauf","Stationärer Einkauf CH","CH","Mio. Fr.","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
-=======
->>>>>>> 7e45e88014d5e038dede848f1526ab4addea6d0c
 2020-01-01,199.1,"Wirtschaft","anz_debiteinsatz_ausland","Anzahl Debitkarteneinsätze Ausland","Ausland","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-01-02,133.3,"Wirtschaft","anz_debiteinsatz_ausland","Anzahl Debitkarteneinsätze Ausland","Ausland","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-01-03,253.6,"Wirtschaft","anz_debiteinsatz_ausland","Anzahl Debitkarteneinsätze Ausland","Ausland","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
@@ -591,10 +582,7 @@
 2020-05-22,36.3,"Wirtschaft","anz_debiteinsatz_ausland","Anzahl Debitkarteneinsätze Ausland","Ausland","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-05-23,55.7,"Wirtschaft","anz_debiteinsatz_ausland","Anzahl Debitkarteneinsätze Ausland","Ausland","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-05-24,8.7,"Wirtschaft","anz_debiteinsatz_ausland","Anzahl Debitkarteneinsätze Ausland","Ausland","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
-<<<<<<< HEAD
 2020-05-25,65,"Wirtschaft","anz_debiteinsatz_ausland","Anzahl Debitkarteneinsätze Ausland","Ausland","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
-=======
->>>>>>> 7e45e88014d5e038dede848f1526ab4addea6d0c
 2020-01-01,120.8,"Wirtschaft","anz_bezug_bargeld","Anzahl Bargeldbezüge CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-01-02,216.6,"Wirtschaft","anz_bezug_bargeld","Anzahl Bargeldbezüge CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-01-03,349.7,"Wirtschaft","anz_bezug_bargeld","Anzahl Bargeldbezüge CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
@@ -740,10 +728,7 @@
 2020-05-22,322,"Wirtschaft","anz_bezug_bargeld","Anzahl Bargeldbezüge CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-05-23,243.6,"Wirtschaft","anz_bezug_bargeld","Anzahl Bargeldbezüge CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-05-24,125.8,"Wirtschaft","anz_bezug_bargeld","Anzahl Bargeldbezüge CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
-<<<<<<< HEAD
 2020-05-25,339,"Wirtschaft","anz_bezug_bargeld","Anzahl Bargeldbezüge CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
-=======
->>>>>>> 7e45e88014d5e038dede848f1526ab4addea6d0c
 2020-01-01,782.4,"Wirtschaft","anz_stat_einkauf","Anzahl Debitkarteneinsätze im stationären Einkauf CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-01-02,1378,"Wirtschaft","anz_stat_einkauf","Anzahl Debitkarteneinsätze im stationären Einkauf CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-01-03,2170.4,"Wirtschaft","anz_stat_einkauf","Anzahl Debitkarteneinsätze im stationären Einkauf CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
@@ -889,7 +874,4 @@
 2020-05-22,3059.3,"Wirtschaft","anz_stat_einkauf","Anzahl Debitkarteneinsätze im stationären Einkauf CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-05-23,2849.2,"Wirtschaft","anz_stat_einkauf","Anzahl Debitkarteneinsätze im stationären Einkauf CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
 2020-05-24,657.9,"Wirtschaft","anz_stat_einkauf","Anzahl Debitkarteneinsätze im stationären Einkauf CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
-<<<<<<< HEAD
 2020-05-25,2798.1,"Wirtschaft","anz_stat_einkauf","Anzahl Debitkarteneinsätze im stationären Einkauf CH","CH","Anzahl in Tausend","SIX BBS AG","täglich","ja","https://github.com/statistikZH/covid19monitoring_economy_SIX"
-=======
->>>>>>> 7e45e88014d5e038dede848f1526ab4addea6d0c
