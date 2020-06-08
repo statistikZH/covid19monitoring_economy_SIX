@@ -76,19 +76,19 @@ dba <- Economy_DebitCards%>%
   mutate(date = as.POSIXct(date,format = '%Y-%m-%d'),
     day = weekdays(date),
          tag = case_when(
-           day == 'Montag' ~ 'Montage',
-           day == 'Dienstag' ~ 'Dienstage',
-           day == 'Mittwoch' ~ 'Mittwoche',
-           day == 'Donnerstag' ~ 'Donnerstage',
-           day == 'Freitag' ~ 'Freitage',
-           day == 'Samstag' ~ 'Samstage',
-           day == 'Sonntag' ~ 'Sonntage',
+           day == 'Monday' ~ 'Montage',
+           day == 'Tuesday' ~ 'Dienstage',
+           day == 'Wednesday' ~ 'Mittwoche',
+           day == 'Thursday' ~ 'Donnerstage',
+           day == 'Friday' ~ 'Freitage',
+           day == 'Saturday' ~ 'Samstage',
+           day == 'Sunday' ~ 'Sonntage',
            TRUE~as.character(day)),
            tag = factor(tag, levels = c('Montage','Dienstage',
                                         'Mittwoche','Donnerstage',
                                         'Freitage','Samstage','Sonntage')),
          Periode = case_when(
-           date %in% as.POSIXct(c('2020-01-01','2020-01-02','2020-02-14','2020-04-10','2020-04-13','2020-05-01','2020-05-21'),format = '%Y-%m-%d') ~ 'Feier- und Festtage',
+           date %in% as.POSIXct(c('2020-01-01','2020-01-02','2020-02-14','2020-04-10','2020-04-13','2020-05-01','2020-05-21','2020-06-01'),format = '%Y-%m-%d') ~ 'Feier- und Festtage',
            date %in% as.POSIXct(c('2020-04-06','2020-04-07','2020-04-08','2020-04-09','2020-04-11'),format = '%Y-%m-%d') == T  ~ 'Tage vor Ostern',
            date <= as.POSIXct('2020-03-11',format = '%Y-%m-%d') ~ 'Prä-Lockdown',
            date > as.POSIXct('2020-03-11',format = '%Y-%m-%d') & date <= as.POSIXct('2020-03-16',format = '%Y-%m-%d') ~ 'Übergangsphase (12.-16. März)',
@@ -219,22 +219,21 @@ p <- ggplot(dba[dba$variable_short=='stat_einkauf',], aes(woche,value))+
   scale_y_continuous(breaks = c(50, 100, 150),labels= c(50, 100, 150))+
 
   facet_wrap(~tag,ncol = 7)+
- labs(y = 'Mio. Fr.<br><br> ', 
-     x = ' <br><br>Kalenderwoche', 
+ labs(y = 'Mio. Fr.<br> ', 
+     x = ' <br>Kalenderwoche', 
      title = "Volumen Debitkarteneinsatz stationärer Einkauf CH<br> ", 
      subtitle = "Kein Online-Handel",
-     caption = paste0('Daten: SIX BBS AG / Gesellschaftsmonitoring COVID-19 STAT'))+
+     caption = paste0('Daten: SIX BBS AG) / Gesellschaftsmonitoring COVID-19 STAT'))+
   theme_bw()
 
 
 gg <- ggplotly(p, tooltip="text") %>%  
   config(displayModeBar = F) %>%
-   layout(legend = list(orientation = "h",y = -0.9),
+   layout(legend = list(orientation = "h",y = -0.2),
           margin = list(l = 75),
           xaxis=list(fixedrange=TRUE),
           yaxis=list(fixedrange=TRUE),
-          autosize=T) %>%
-  style(legendgroup = NULL)
+          autosize=T)
 
 gg <- plotly_build(gg) 
 
@@ -326,5 +325,108 @@ Der Vorteil der analysierten Daten liegt darin, dass sie täglich vorliegen und 
 Datenquelle: Die Daten stammen von der SIX BBS AG. Weitere Informationen finden sich im Github-Repository (siehe Link unten).<br>
 Github-Repo: [Link](https://github.com/statistikZH/covid19monitoring_economy_SIX)<br>
 Kontakt: Basil Schläpfer, Statistisches Amt Kanton Zürich,+41 43 259 75 39, basil.schlaepfer@statistik.ji.zh.ch<br><br>
+
+```{r Plot für Bargeld}
+p_bar <- ggplot(dba[dba$variable_short=='bezug_bargeld',], aes(woche,value))+
+  geom_path(col='grey',alpha=0.3)+
+  geom_point(aes(col=Periode,
+                 text=sprintf("Datum: %s<br>Volumen in Mio. Fr.: %s", date, value)),
+             alpha=0.8)+
+  #scale_color_manual(values = c('Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'='#FF0000',
+  #                              'Prä-Lockdown'='#102542',
+  #                              'Übergangsphase (12.-16. März)'='#004BA8',
+  #                              'Lockdown'='#F87060',
+  #                              'Tage vor Ostern'='#DBD56E',
+  #                              'Feier- und Festtage'='#65B891',
+  #                              'Erste Lockdown-Lockerung'= '#8865FF',
+  #                              'Zweite Lockdown-Lockerung'= '#ff65c1')) +
+  #
+      scale_color_manual(values = c('Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'='#FF0000',
+                                    'Prä-Lockdown'='#6CBD72',
+                                'Übergangsphase (12.-16. März)'='#EDDD79',
+                                'Lockdown'='#F3A5A7',
+                                'Tage vor Ostern'='#E0D6E6',
+                                'Feier- und Festtage'='#3FA5A5',
+                                'Erste Lockdown-Lockerung'= '#407B9F',
+                                'Zweite Lockdown-Lockerung'= '#857091')) +
+  
+  
+  geom_path(data=dba[dba$variable_short=='bezug_bargeld' & !is.na(dba$salary_day),],aes(group=salary_day,col='Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'), alpha=0.7, size=0.5)+
+  scale_x_continuous(breaks = c(5, 10, 15,20),labels= c(5, 10, 15,20))+
+  scale_y_continuous(breaks = c(50, 100, 150),labels= c(50, 100, 150))+
+
+  facet_wrap(~tag,ncol = 7)+
+ labs(y = 'Mio. Fr.<br> ', 
+     x = ' <br>Kalenderwoche', 
+     title = "Volumen Debitkarteneinsatz Bargeldbezug CH<br> ", 
+     subtitle = "Kein Online-Handel",
+     caption = paste0('Daten: SIX BBS AG / Gesellschaftsmonitoring COVID-19 STAT'))+
+  theme_bw()
+
+
+
+
+
+#Area-Plot
+
+rolling_mean_7 <- tibbletime::rollify(mean, window = 7)
+
+
+dba <- dba%>%
+  group_by(variable_short)%>%
+  arrange(variable_short, date) %>%
+  mutate(rolling_value = rolling_mean_7(value)) %>%
+ungroup()
+
+p_bar <- ggplot(dba[dba$variable_short=='bezug_bargeld',], aes(date,value))+
+  geom_col(aes(fill=Periode,
+               text=sprintf("Datum: %s<br>Volumen in Mio. Fr.: %s", date, value)),
+               binwidth=0) +
+
+  #scale_color_manual(values = c('Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'='#FF0000',
+  #                              'Prä-Lockdown'='#102542',
+  #                              'Übergangsphase (12.-16. März)'='#004BA8',
+  #                              'Lockdown'='#F87060',
+  #                              'Tage vor Ostern'='#DBD56E',
+  #                              'Feier- und Festtage'='#65B891',
+  #                              'Erste Lockdown-Lockerung'= '#8865FF',
+  #                              'Zweite Lockdown-Lockerung'= '#ff65c1')) +
+  #
+      scale_fill_manual(values = c('Rollender Mittelwert 7-Tage'='#FF0000',
+                                    'Prä-Lockdown'='#6CBD72',
+                                'Übergangsphase (12.-16. März)'='#EDDD79',
+                                'Lockdown'='#F3A5A7',
+                                'Tage vor Ostern'='#E0D6E6',
+                                'Feier- und Festtage'='#3FA5A5',
+                                'Erste Lockdown-Lockerung'= '#407B9F',
+                                'Zweite Lockdown-Lockerung'= '#857091'))+
+  
+  geom_path(data=dba[dba$variable_short=='bezug_bargeld',],aes(y=rolling_value,fill='Rollender Mittelwert 7-Tage'), alpha=0.7, size=0.5)+
+
+  scale_y_continuous(breaks = c(50, 100, 150),labels= c(50, 100, 150))+
+
+ labs(y = 'Mio. Fr.<br> ', 
+     x = 'Datum<br>', 
+     title = "Volumen Debitkarteneinsatz Bargeldbezug CH<br> ", 
+     subtitle = "Kein Online-Handel",
+     caption = paste0('Daten: SIX BBS AG / Gesellschaftsmonitoring COVID-19 STAT'))+
+  theme_bw()
+
+gg_bar <- ggplotly(p_bar, tooltip="text") %>%  
+  config(displayModeBar = F) %>%
+   layout(legend = list(orientation = "h",y = -0.3),
+          margin = list(l = 75),
+          xaxis=list(fixedrange=TRUE),
+          yaxis=list(fixedrange=TRUE),
+          autosize=T)
+
+gg_bar <- plotly_build(gg_bar) 
+gg_bar
+
+
+
+
+```
+
 
 
