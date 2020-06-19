@@ -4,7 +4,7 @@
 Die Daten von der SIX BBS AG umfassen bargeldlose Transaktionen und Bargeldbezüge im In- und Ausland, für welche von Schweizer Banken ausgehändigte Debitkarten der folgenden Marken verwendet wurden: Debit Mastercard, Maestro CH, V PAY oder Visa Debit.
 
 <h2> Methodisches </h2>
-Die Variablen weisen die Finanzvolumen unterschiedlicher Bezugsfunktionen aus. Die Unterscheidung zw. Schweiz und Ausland findet über das Bezugssystem statt. In keinem Fall berücksichtigt werden Bancomat-Einzahlungen und Geldautomaten-Betreuergutschriften.  
+Die Variablen weisen die Finanzvolumen unterschiedlicher Bezugsfunktionen aus. Die Unterscheidung zw. Schweiz und Ausland findet über das Bezugssystem statt. In keinem Fall berücksichtigt werden Bancomat-Einzahlungen und Geldautomaten-Betreuergutschriften.<br>  
 
 <strong>Hinweis zu den inländischen Bargeldbezügen:</strong> Die Angaben zu den Bargeldbezügen an inländischen Bancomaten werden nicht über den gesamten Zeitraum konsistent erfasst und sind somit auch nur beschränkt analysierbar. Hintergrund ist ein rollendes Update der Bancomaten-Software. Durch das Update werden Bezüge an Bancomaten neu in jedem Fall von der SIX BBS AG erfasst. Mit der alten Software werden Bezüge an Bancomaten, die zur gleichen Bank gehörten wie die Karte, nicht erfasst. Bei der grossen Mehrheit der Bancomaten wurde die Softwareumstellung vor 2020 durchgeführt.   
 
