@@ -6,8 +6,10 @@ Die Daten von der SIX BBS AG umfassen bargeldlose Transaktionen und Bargeldbezü
 <h2> Methodisches </h2>
 Die Variablen weisen die Finanzvolumen unterschiedlicher Bezugsfunktionen aus. Die Unterscheidung zw. Schweiz und Ausland findet über das Bezugssystem statt. In keinem Fall berücksichtigt werden Bancomat-Einzahlungen und Geldautomaten-Betreuergutschriften.  
 
-<h2> Variablen </h2>
+<strong>Hinweis zu den inländischen Bargeldbezügen:</strong> Die Angaben zu den Bargeldbezügen an inländischen Bancomaten werden nicht über den gesamten Zeitraum konsistent erfasst und sind somit auch nur beschränkt analysierbar. Hintergrund ist ein rollendes Update der Bancomaten-Software. Durch das Update werden Bezüge an Bancomaten neu in jedem Fall von der SIX BBS AG erfasst. Mit der alten Software werden Bezüge an Bancomaten, die zur gleichen Bank gehörten wie die Karte, nicht erfasst. Bei der grossen Mehrheit der Bancomaten wurde die Softwareumstellung vor 2020 durchgeführt.   
 
+<h2> Variablen </h2>
+<strong>Bitte beachten Sie die Auswertungshinweise unter 'Methodisches'.</strong><br>
 
 <strong>debiteinsatz_ausland </strong> = 	Finanzvolumen Debitkarteneinsatz im Ausland<br>
 <strong>anz_debiteinsatz_ausland </strong> = 	Anzahl Debitkarteneinsätze im Ausland<br>
