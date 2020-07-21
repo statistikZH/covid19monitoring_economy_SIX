@@ -1,0 +1,166 @@
+---
+title: "Einkaufen im Lockdown"
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+    theme: lumen
+    highlight: tango
+---
+
+<style type="text/css">
+.main-container {
+  max-width: 1800px;
+  margin-left: 0;
+  margin-right: auto;
+}
+blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    font-size: 14px;
+    border-left: 5px solid #eee;
+}
+
+h1.title {
+  font-size: 38px;
+  color: #000000;
+  }
+  
+h1 { /* Header 1 */
+  font-size: 28px;
+  color: #0033cc;
+}
+h2 { /* Header 2 */
+    font-size: 28px;
+	color: #0099ff
+}
+h3 { /* Header 3 */
+    font-size: 14px;
+	color: #6600cc
+}
+</style>
+
+![](plots/KtZuerichLogo.png)
+
+
+*Debitkarteneinsatz im stationären Einkauf vor, während und nach dem Corona-Lockdown*<br><br>
+*Text zuletzt aktualisiert am 18.05.2020*<br><br>
+**Die erste Woche des schrittweisen Ausstiegs aus dem Corona-Lockdown ist vorbei. Hinweise, wie stark unser Einkaufsverhalten in den letzten Wochen vom Normalfall abgewichen ist, liefern die Transaktionszahlen von Debitkarten. Klar ersichtlich sind die Übergangsphase mit einem deutlich erhöhten Einkaufsvolumen sowie der Einbruch während des Lockdowns. Geliefert werden die Daten vom Finanzdienstleister SIX BBS AG.**<br><br>
+Die Grafik unten zeigt das finanzielle Gesamtvolumen der Einkäufe und Dienstleistungen, welche mit Debitkarten von Schweizer Banken (exkl. Postfinance) direkt am Ort des Konsums bezahlt wurden. 
+
+```{r Vorbereitungen,echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
+rm(list=ls())
+options(stringsAsFactors = F)
+
+### Packages 
+library(dplyr)
+library(ggplot2)
+library(scales)
+library(plotly)
+
+```
+
+```{r Analyse stat. Einkauf,echo = F,collapse=TRUE, warning=FALSE,  message=FALSE}
+
+
+dba <- read.csv('Economy_SIX.csv') %>%
+  select(date,variable_short,value)%>%
+  tidyr::spread(key=variable_short, value=value)%>%
+  mutate(vol_bez_bar = (bezug_bargeld*1000000)/(anz_bezug_bargeld*1000),
+         vol_bez_stat = (stat_einkauf*1000000)/(anz_stat_einkauf*1000),
+         rat_bez_stat_use = vol_bez_bar/vol_bez_stat,
+         rat_bez_stat_vol = bezug_bargeld/stat_einkauf)%>%
+  mutate(date = as.POSIXct(date,format = '%Y-%m-%d'),
+    day = weekdays(date),
+         tag = case_when(
+           day == 'Montag' ~ 'Montage',
+           day == 'Dienstag' ~ 'Dienstage',
+           day == 'Mittwoch' ~ 'Mittwoche',
+           day == 'Donnerstag' ~ 'Donnerstage',
+           day == 'Freitag' ~ 'Freitage',
+           day == 'Samstag' ~ 'Samstage',
+           day == 'Sonntag' ~ 'Sonntage',
+           TRUE~as.character(day)),
+           tag = factor(tag, levels = c('Montage','Dienstage',
+                                        'Mittwoche','Donnerstage',
+                                        'Freitage','Samstage','Sonntage')),
+         Periode = case_when(
+           date %in% as.POSIXct(c('2020-01-01','2020-01-02','2020-02-14','2020-04-10','2020-04-13','2020-05-01','2020-05-21','2020-06-01'),format = '%Y-%m-%d') ~ 'Feier- und Festtage',
+           date %in% as.POSIXct(c('2020-04-06','2020-04-07','2020-04-08','2020-04-09','2020-04-11'),format = '%Y-%m-%d') == T  ~ 'Tage vor Ostern',
+           date <= as.POSIXct('2020-03-11',format = '%Y-%m-%d') ~ 'Prä-Lockdown',
+           date > as.POSIXct('2020-03-11',format = '%Y-%m-%d') & date <= as.POSIXct('2020-03-16',format = '%Y-%m-%d') ~ 'Übergangsphase (12.-16. März)',
+           date > as.POSIXct('2020-03-16',format = '%Y-%m-%d') & date <= as.POSIXct('2020-04-26',format = '%Y-%m-%d') ~ 'Lockdown',
+           date > as.POSIXct('2020-04-26',format = '%Y-%m-%d') & date <= as.POSIXct('2020-05-10',format = '%Y-%m-%d')  ~ 'Erste Lockdown-Lockerung',
+           date > as.POSIXct('2020-05-10',format = '%Y-%m-%d') & date <= as.POSIXct('2020-06-06',format = '%Y-%m-%d') ~ 'Zweite Lockdown-Lockerung',
+           
+           date > as.POSIXct('2020-06-06',format = '%Y-%m-%d')  ~ 'Dritte Lockdown-Lockerung',
+           
+         TRUE ~as.character(date)),
+         woche = lubridate::isoweek(date),
+         Periode = factor(Periode, levels = c('Prä-Lockdown',
+                                              'Übergangsphase (12.-16. März)',
+                                              'Lockdown',
+                                              'Tage vor Ostern',
+                                              'Erste Lockdown-Lockerung',
+                                              'Zweite Lockdown-Lockerung',
+                                              'Dritte Lockdown-Lockerung',
+                                              'Feier- und Festtage'
+                                              )),
+         salary_day = case_when(
+           date < as.POSIXct('2020-01-24',format = '%Y-%m-%d')  ~ 'Dezember',
+           date < as.POSIXct('2020-02-25',format = '%Y-%m-%d')  ~ 'Januar',
+           date < as.POSIXct('2020-03-25',format = '%Y-%m-%d')  ~ 'Februar',
+           date < as.POSIXct('2020-04-24',format = '%Y-%m-%d')  ~ 'Maerz',
+           date < as.POSIXct('2020-05-25',format = '%Y-%m-%d')  ~ 'April',
+           date < as.POSIXct('2020-06-25',format = '%Y-%m-%d')  ~ 'Mai',
+           TRUE ~ 'MISSING'),
+         salary_day = ifelse(Periode == 'Prä-Lockdown',salary_day, NA)) %>%
+  arrange(date)%>%
+  filter(date>=as.Date('2020-01-01'))
+
+
+p_vol_bez <- ggplot(dba, aes(date,vol_bez_bar))+
+  geom_path(col='grey',alpha=0.3)+
+  geom_point()
+
+ggplotly(p)
+
+
+
+p_anz <- ggplot(dba, aes(date,anz_bezug_bargeld))+
+  geom_path(col='grey',alpha=0.3)+
+  geom_point()
+
+ggplotly(p_anz)
+
+
+p_vol <- ggplot(dba, aes(date,bezug_bargeld))+
+  geom_path(col='grey',alpha=0.3)+
+  geom_point()
+
+ggplotly(p_vol)
+
+
+p_ratio_use <- ggplot(dba, aes(date,rat_bez_stat_use))+
+  geom_path(col='grey',alpha=0.3)+
+  geom_point()
+
+ggplotly(p_ratio_use)
+
+
+p_ratio_vol <- ggplot(dba, aes(date,rat_bez_stat_vol))+
+  geom_path(col='grey',alpha=0.3)+
+  geom_point()
+
+ggplotly(p_ratio_vol)
+
+
+```
