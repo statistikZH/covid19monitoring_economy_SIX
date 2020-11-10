@@ -10,7 +10,6 @@ Die Variablen weisen die Finanzvolumen unterschiedlicher Bezugsfunktionen aus. D
 
 <strong>Hinweis zu den Daten am 30. Juni:</strong> An diesem Tag wurden Zahlungen mit Maestro-Karten nicht erfasst. Der Fehler ist inzwischen behoben. 
 
-
 <h2> Variablen </h2>
 <strong>Bitte beachten Sie die Auswertungshinweise unter 'Methodisches'.</strong><br>
 

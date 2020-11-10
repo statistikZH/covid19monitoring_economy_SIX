@@ -74,23 +74,23 @@ Economy_DebitCards <- read.csv('Economy_SIX.csv')
 
 
 dba <- Economy_DebitCards%>%
-  filter(variable_short %in% c('stat_einkauf','bezug_bargeld'))%>%
+  filter(variable_short %in% c('stat_einkauf','bezug_bargeld') & date > as.Date('2019-12-31') & date < as.Date('2021-01-01'))%>%
   mutate(date = as.POSIXct(date,format = '%Y-%m-%d'),
     day = weekdays(date),
          tag = case_when(
            day == 'Montag' ~ 'Montage',
-           day == 'Tuesday' ~ 'Dienstage',
-           day == 'Wednesday' ~ 'Mittwoche',
-           day == 'Thursday' ~ 'Donnerstage',
-           day == 'Friday' ~ 'Freitage',
-           day == 'Saturday' ~ 'Samstage',
-           day == 'Sunday' ~ 'Sonntage',
+           day == 'Dienstag' ~ 'Dienstage',
+           day == 'Mittwoch' ~ 'Mittwoche',
+           day == 'Donnerstag' ~ 'Donnerstage',
+           day == 'Freitag' ~ 'Freitage',
+           day == 'Samstag' ~ 'Samstage',
+           day == 'Sonntag' ~ 'Sonntage',
            TRUE~as.character(day)),
            tag = factor(tag, levels = c('Montage','Dienstage',
                                         'Mittwoche','Donnerstage',
                                         'Freitage','Samstage','Sonntage')),
          Periode = case_when(
-           date %in% as.POSIXct(c('2020-01-01','2020-01-02','2020-02-14','2020-04-10','2020-04-13','2020-05-01','2020-05-21','2020-06-01'),format = '%Y-%m-%d') ~ 'Feier- und Festtage',
+           date %in% as.POSIXct(c('2020-01-01','2020-01-02','2020-02-14','2020-04-10','2020-04-13','2020-05-01','2020-05-21','2020-06-01','2020-08-01'),format = '%Y-%m-%d') ~ 'Feier- und Festtage',
            date %in% as.POSIXct(c('2020-04-06','2020-04-07','2020-04-08','2020-04-09','2020-04-11'),format = '%Y-%m-%d') == T  ~ 'Tage vor Ostern',
            date <= as.POSIXct('2020-03-11',format = '%Y-%m-%d') ~ 'Prä-Lockdown',
            date > as.POSIXct('2020-03-11',format = '%Y-%m-%d') & date <= as.POSIXct('2020-03-16',format = '%Y-%m-%d') ~ 'Übergangsphase (12.-16. März)',
@@ -118,30 +118,34 @@ dba <- Economy_DebitCards%>%
            date < as.POSIXct('2020-04-24',format = '%Y-%m-%d')  ~ 'Maerz',
            date < as.POSIXct('2020-05-25',format = '%Y-%m-%d')  ~ 'April',
            date < as.POSIXct('2020-06-25',format = '%Y-%m-%d')  ~ 'Mai',
+           date < as.POSIXct('2020-07-24',format = '%Y-%m-%d')  ~ 'Juni',
+           date < as.POSIXct('2020-08-25',format = '%Y-%m-%d')  ~ 'Juli',
+           date < as.POSIXct('2020-09-25',format = '%Y-%m-%d')  ~ 'August',
+           date < as.POSIXct('2020-10-23',format = '%Y-%m-%d')  ~ 'September',
            TRUE ~ 'MISSING'),
-         salary_day = ifelse(Periode == 'Prä-Lockdown',salary_day, NA)) %>%
+         salary_day_pre = ifelse(Periode == 'Prä-Lockdown',salary_day, NA)) %>%
   arrange(date)
 
-table(dba$tag)
+#table(dba$tag)
 
 write.csv(dba,'dba.csv',row.names=F, fileEncoding = "UTF-8")
 
 
 
-dba_stat <- dba %>%
-  filter(variable_short=='stat_einkauf')%>%
-  filter(Periode %in% c('Prä-Lockdown','Lockdown'))%>%
-    mutate(taggrp = case_when(
-    tag == 'Sonntage' ~ 'Sonntage',
-    tag == 'Samstage' ~ 'Samstage',
-    TRUE ~ 'Werktage'))%>%
-  group_by(taggrp,Periode)%>%
-  summarise(mean = mean(value))%>%
-  tidyr::spread(Periode,mean)%>%
-  mutate(diff = `Prä-Lockdown` - Lockdown)%>%
-  mutate(diff_perc = diff/`Prä-Lockdown`)
+#dba_stat <- dba %>%
+#  filter(variable_short=='stat_einkauf')%>%
+#  filter(Periode %in% c('Prä-Lockdown','Lockdown'))%>%
+#    mutate(taggrp = case_when(
+#    tag == 'Sonntage' ~ 'Sonntage',
+#    tag == 'Samstage' ~ 'Samstage',
+#    TRUE ~ 'Werktage'))%>%
+#  group_by(taggrp,Periode)%>%
+#  summarise(mean = mean(value))%>%
+#  tidyr::spread(Periode,mean)%>%
+#  mutate(diff = `Prä-Lockdown` - Lockdown)%>%
+#  mutate(diff_perc = diff/`Prä-Lockdown`)
 
-show_col(colors$zhpaired)
+#show_col(colors$zhpaired)
 
 p <- ggplot(dba[dba$variable_short=='stat_einkauf',], aes(woche,value))+
   geom_path(col='grey',alpha=0.3)+
@@ -162,7 +166,7 @@ p <- ggplot(dba[dba$variable_short=='stat_einkauf',], aes(woche,value))+
                                 'Feier- und Festtage'='#3FA5A5',
                                 'Erste Lockdown-Lockerung'= '#407B9F',
                                 'Zweite Lockdown-Lockerung'= '#857091',
-                                'Dritte Lockdown-Lockerung' = 'CEBE5B')) +
+                                'Dritte Lockdown-Lockerung' = '#CEBE5B')) +
   
  # geom_path(data=dba[dba$variable_short=='stat_einkauf' & !is.na(dba$salary_day),],aes(group=salary_day,col='Tage mit gleichem Zahltag '), alpha=0.7, size=0.5)+
   facet_wrap(~tag,ncol = 7)+
@@ -218,11 +222,12 @@ p <- ggplot(dba[dba$variable_short=='stat_einkauf',], aes(woche,value))+
                                 'Tage vor Ostern'='#E0D6E6',
                                 'Feier- und Festtage'='#3FA5A5',
                                 'Erste Lockdown-Lockerung'= '#407B9F',
-                                'Zweite Lockdown-Lockerung'= '#857091')) +
+                                'Zweite Lockdown-Lockerung'= '#857091',
+                                 'Dritte Lockdown-Lockerung' = '#CEBE5B')) +
   
   
   geom_path(data=dba[dba$variable_short=='stat_einkauf' & !is.na(dba$salary_day),],aes(group=salary_day,col='Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'), alpha=0.7, size=0.5)+
-  scale_x_continuous(breaks = c(5, 10, 15,20),labels= c(5, 10, 15,20))+
+  scale_x_continuous(breaks = seq(5,50,5),labels= seq(5,50,5))+
   scale_y_continuous(breaks = c(50, 100, 150),labels= c(50, 100, 150))+
 
   facet_wrap(~tag,ncol = 7)+
@@ -243,7 +248,7 @@ gg <- ggplotly(p, tooltip="text") %>%
           autosize=T)
 
 gg <- plotly_build(gg) 
-
+#gg
 
 gg$x$data[[50]]$visible <- 'legendonly'  
 gg$x$data[[51]]$visible <- 'legendonly'  
@@ -355,7 +360,8 @@ p_bar <- ggplot(dba[dba$variable_short=='bezug_bargeld',], aes(woche,value))+
                                 'Tage vor Ostern'='#E0D6E6',
                                 'Feier- und Festtage'='#3FA5A5',
                                 'Erste Lockdown-Lockerung'= '#407B9F',
-                                'Zweite Lockdown-Lockerung'= '#857091')) +
+                                'Zweite Lockdown-Lockerung'= '#857091',
+                                 'Dritte Lockdown-Lockerung' = '#CEBE5B')) +
   
   
   geom_path(data=dba[dba$variable_short=='bezug_bargeld' & !is.na(dba$salary_day),],aes(group=salary_day,col='Tage mit gleichem Zahltag  verbinden (ohne Fest- und Feiertage)'), alpha=0.7, size=0.5)+
@@ -406,7 +412,8 @@ p_bar <- ggplot(dba[dba$variable_short=='bezug_bargeld',], aes(date,value))+
                                 'Tage vor Ostern'='#E0D6E6',
                                 'Feier- und Festtage'='#3FA5A5',
                                 'Erste Lockdown-Lockerung'= '#407B9F',
-                                'Zweite Lockdown-Lockerung'= '#857091'))+
+                                'Zweite Lockdown-Lockerung'= '#857091',
+                                 'Dritte Lockdown-Lockerung' = '#CEBE5B'))+
   
   geom_path(data=dba[dba$variable_short=='bezug_bargeld',],aes(y=rolling_value,fill='Rollender Mittelwert 7-Tage'), alpha=0.7, size=0.5)+
 
@@ -429,8 +436,6 @@ gg_bar <- ggplotly(p_bar, tooltip="text") %>%
 
 gg_bar <- plotly_build(gg_bar) 
 gg_bar
-
-
 
 
 ```
