@@ -128,7 +128,7 @@ dba <- Economy_DebitCards%>%
 
 #table(dba$tag)
 
-write.csv(dba,'dba.csv',row.names=F, fileEncoding = "UTF-8")
+#write.csv(dba,'dba.csv',row.names=F, fileEncoding = "UTF-8")
 
 
 
