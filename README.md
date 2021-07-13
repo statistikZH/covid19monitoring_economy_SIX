@@ -1,10 +1,7 @@
 # covid19monitoring_economy_SIX
 
-<<<<<<< HEAD
+
 <h2> Aktualisierungsinvtervall </h2>
-=======
-<h2> Aktualsierungsinvtervall </h2>
->>>>>>> 241a3abc75e30943cdab2277a5e46311bd5cd06c
 Monatlich
 
 <h2> Grundlage </h2>
