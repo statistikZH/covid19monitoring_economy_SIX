@@ -2,7 +2,7 @@
 
 
 <h2> Aktualisierungsinvtervall </h2>
-Monatlich
+Der Datensatz wird nicht mehr aktualisiert. Ähnliche und zur Zeit weiterhin aktualisierte Daten (Stand November 2021) bietet das Projekt [Monitoring Consumption] (https://monitoringconsumption.com/data/) an.
 
 <h2> Grundlage </h2>
 Die Daten von der SIX BBS AG umfassen bargeldlose Transaktionen und Bargeldbezüge im In- und Ausland, für welche von Schweizer Banken ausgehändigte Debitkarten der folgenden Marken verwendet wurden: Debit Mastercard, Maestro CH, V PAY oder Visa Debit.
